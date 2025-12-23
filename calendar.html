@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telekék Vendégház - Naptár</title>
+<style>
+  body {
+    font-family: "Georgia", serif;
+    background: linear-gradient(to right, #f4f0ec, #e0d4c0);
+    margin: 0;
+    color: #333;
+  }
+  header {
+    background-color: #2b4e72;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+  }
+  h1, h2 {
+    margin: 0;
+  }
+  nav {
+    background-color: #e0d4c0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    font-weight: bold;
+  }
+  nav a {
+    color: #2b4e72;
+    text-decoration: none;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  section {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    background-color: rgba(255,255,255,0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  #calendar {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    table-layout: fixed;
+  }
+  #calendar th, #calendar td {
+    width: 14.28%;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5rem;
+    cursor: default;
+    transition: background 0.3s;
+  }
+  #calendar th {
+    background-color: #2b4e72;
+    color: white;
+  }
+  .free {
+    background-color: #d4edda;
+  }
+  .booked {
+    background-color: #f8d7da;
+  }
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+  .nav-buttons button {
+    background-color: #2b4e72;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .nav-buttons button:hover {
+    background-color: #1f3a55;
+  }
+  footer {
+    background-color: #2b4e72;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 500px) {
+    #calendar th, #calendar td {
+      height: 50px;
+      font-size: 0.8rem;
+
+
+
+      nav {
+    flex-direction: column;   
+    gap: 0.5rem;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+  }
+
+  section {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .nav-buttons {
+    flex-direction: column;  
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .nav-buttons button {
+    width: 100%;              
+    font-size: 0.9rem;
+  }
+
+  #calendar th, #calendar td {
+    font-size: 0.7rem;        
+    height: 40px;
+    padding: 0.3rem;
+  }
+
+  #monthYear {
+    margin: 0.5rem 0;
+    text-align: center;
+    display: block;
+  }
+
+  header {
+    padding: 1rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+
+
+
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Telekék Vendégház</h1>
+  <p>Pihenő a Kéktúra szívében – Foglalások</p>
+</header>
+
+<nav>
+  <a href="index.html">Vissza a főoldalra</a>
+  
+</nav>
+
+<section>
+  <h2>Elérhetőség és foglalás</h2>
+  <p>Foglalás telefonon vagy e-mailen keresztül történik: <strong>06 70 411 4483</strong> | <strong>banyekk@gmail.com</strong></p>
+
+  <div class="nav-buttons">
+    <button id="prevMonth">&lt; Előző hónap</button>
+    <span id="monthYear" style="font-weight:bold;"></span>
+    <button id="nextMonth">Következő hónap &gt;</button>
+  </div>
+
+  <table id="calendar">
+    <thead>
+      <tr>
+        <th>H</th>
+        <th>K</th>
+        <th>Sze</th>
+        <th>Cs</th>
+        <th>P</th>
+        <th>Szo</th>
+        <th>V</th>
+      </tr>
+    </thead>
+    <tbody id="calendar-body"></tbody>
+  </table>
+</section>
+
+<footer>
+  <p>&copy; 2025 Telekék Vendégház | Kéktúra mentén | Terv és kivitelezés: Éva és Béla</p>
+</footer>
+
+<script>
+  const monthNames = ["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"];
+  let today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+
+  const STORAGE_KEY = "bookings";
+const bookings = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+
+const bookedDates = bookings.map(b => b.date);
+
+  function generateCalendar(month, year) {
+
+    let firstDay = new Date(year, month, 1).getDay();
+firstDay = firstDay === 0 ? 7 : firstDay; // vasárnap
+
+
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const tbl = document.getElementById("calendar-body");
+    tbl.innerHTML = "";
+
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+      let row = document.createElement("tr");
+
+      for (let j = 1; j <= 7; j++) { // Hétfő = 1
+        let cell = document.createElement("td");
+        if (i === 0 && j < firstDay) {
+          cell.textContent = "";
+        } else if (date > daysInMonth) {
+          cell.textContent = "";
+        } else {
+          let fullDate = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
+          cell.textContent = date;
+          if (bookedDates.includes(fullDate)) {
+            cell.classList.add("booked");
+          } else {
+            cell.classList.add("free");
+          }
+          date++;
+        }
+        row.appendChild(cell);
+      }
+      tbl.appendChild(row);
+    }
+    document.getElementById("monthYear").innerText = `${monthNames[month]} ${year}`;
+  }
+
+  document.getElementById("prevMonth").addEventListener("click", () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  document.getElementById("nextMonth").addEventListener("click", () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  
+  window.addEventListener("load", () => {
+    currentMonth = today.getMonth();
+    currentYear = today.getFullYear();
+    generateCalendar(currentMonth, currentYear);
+  });
+</script>
+
+</body>
+</html>
