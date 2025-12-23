@@ -34,23 +34,23 @@ body {
     margin: auto;
   }
 
-  
-
   .gallery {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 1rem;
-justify-items: center;
-margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  margin-top: 2rem;
 }
+
 .gallery img {
-width: 100%;
-max-width: 200px;
-border-radius: 8px;
-box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-transition: transform 0.3s ease;
-cursor: pointer;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
+
 .gallery img:hover {
 transform: scale(1.05);
 }
@@ -89,3 +89,65 @@ box-shadow: 0 0 15px #fff;
     height: 600px;
     margin-top: 2rem;
   }
+
+  @media (max-width: 400px) {
+
+    .gallery {
+    grid-template-columns: repeat(3, 1fr); /* 3 kép sorban */
+    gap: 0.5rem;
+  }
+
+  .gallery img {
+    max-width: 100%;
+  }
+
+    
+
+  nav {
+    flex-direction: column;  /* Menü függőleges */
+    gap: 0.5rem;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+  }
+
+  section {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;  /* 1 kép sorban */
+    gap: 0.5rem;
+  }
+
+  iframe {
+    height: 400px; /* kisebb mobilhoz */
+  }
+
+  footer {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .gallery img {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+
+@media (max-width: 350px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
