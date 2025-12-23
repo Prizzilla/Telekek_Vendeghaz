@@ -1,40 +1,60 @@
-body {
-    font-family: "Georgia", serif;
-    margin: 0;
-    background-color: #f4f0ec;
-    color: #333;
-  }
-  header {
-    background-color: #2b4e72;
-    color: white;
-    padding: 2rem;
-    text-align: center;
-   
-    background-size: cover;
-    background-position: center;
-  }
-  nav {
-    background-color: #e0d4c0;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 1rem;
-    font-weight: bold;
-  }
-  nav a {
-    color: #2b4e72;
-    text-decoration: none;
-  }
-  nav a:hover {
-    text-decoration: underline;
-  }
-  section {
-    padding: 2rem;
-    max-width: 900px;
-    margin: auto;
-  }
 
-  .gallery {
+body {
+  font-family: "Georgia", serif;
+  margin: 0;
+  background-color: #f4f0ec;
+  color: #333;
+}
+
+header {
+  background-color: #2b4e72;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+}
+
+nav {
+  background-color: #e0d4c0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+nav a {
+  color: #2b4e72;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+section {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  color: #2b4e72;
+  border-bottom: 2px solid #d0bfa3;
+  padding-bottom: 0.5rem;
+}
+
+footer {
+  background-color: #2b4e72;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+
+.gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
@@ -52,102 +72,115 @@ body {
 }
 
 .gallery img:hover {
-transform: scale(1.05);
+  transform: scale(1.05);
 }
+
 
 #lightbox {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(0,0,0,0.8);
-display: none;
-justify-content: center;
-align-items: center;
-z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
+
 #lightbox img {
-max-width: 90%;
-max-height: 90%;
-box-shadow: 0 0 15px #fff;
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 0 15px #fff;
 }
-  footer {
-    background-color: #2b4e72;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-  }
-  h2 {
-    color: #2b4e72;
-    border-bottom: 2px solid #d0bfa3;
-    padding-bottom: 0.5rem;
-  }
-  iframe {
-    border: none;
-    width: 100%;
-    height: 600px;
-    margin-top: 2rem;
-  }
 
-  @media (max-width: 400px) {
 
-    .gallery {
-    grid-template-columns: repeat(3, 1fr); /* 3 kép sorban */
-    gap: 0.5rem;
-  }
+iframe {
+  border: none;
+  width: 100%;
+  height: 600px;
+  margin-top: 2rem;
+}
 
-  .gallery img {
-    max-width: 100%;
-  }
 
-    
-
+@media (max-width: 500px) {
   nav {
-    flex-direction: column;  /* Menü függőleges */
+    
     gap: 0.5rem;
+    align-items: center;
   }
-
   nav a {
     font-size: 0.9rem;
   }
-
   section {
     padding: 1rem;
     margin: 1rem;
   }
-
-  .gallery {
-    grid-template-columns: 1fr;  /* 1 kép sorban */
-    gap: 0.5rem;
-  }
-
   iframe {
-    height: 400px; /* kisebb mobilhoz */
+    height: 400px;
   }
-
   footer {
     font-size: 0.8rem;
     padding: 0.5rem;
   }
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
 }
+
 
 @media (max-width: 375px) {
+  nav {
+    gap: 0.3rem;
+  }
+  nav a {
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+  }
   .gallery {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); 
     gap: 0.5rem;
   }
+}
 
-  .gallery img {
-    width: 100%;
-    max-width: 100%;
+@media (max-width: 350px) {
+  nav {
+    flex-direction: row;      /* vízszintes maradjon */
+    gap: 0.8rem;              /* nagyobb távolság a linkek között */
+    justify-content: center;   /* középre rendezzük */
+    flex-wrap: wrap;           /* ha nagyon szorosan lenne, új sorba törhet */
+  }
+
+  nav a {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;   /* kisebb, de még olvasható */
   }
 }
 
 
-@media (max-width: 350px) {
-  .gallery {
-    grid-template-columns: 1fr;
+@media (max-width: 500px) {
+  #calendar th, #calendar td {
+    font-size: 0.7rem;
+    height: 40px;
+    padding: 0.3rem;
+  }
+  .nav-buttons {
+    flex-direction: column;
+    align-items: stretch;
     gap: 0.5rem;
+  }
+  .nav-buttons button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+  #monthYear {
+    margin: 0.5rem 0;
+    text-align: center;
+    display: block;
+  }
+  header {
+    padding: 1rem;
   }
 }
