@@ -120,9 +120,12 @@
     const bookingList = document.getElementById("bookingList");
 
     flatpickr("#datePicker", {
-      dateFormat: "Y-m-d",
-      disableMobile: false
-    });
+  dateFormat: "Y-m-d",
+  disableMobile: false,
+  mode: "multiple",   
+  maxDate: new Date().fp_incr(365), 
+});
+
 
     function save() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
@@ -155,18 +158,23 @@
     }
 
     document.getElementById("addBooking").addEventListener("click", () => {
-      const name = document.getElementById("nameInput").value.trim();
-      const date = document.getElementById("datePicker").value;
+  const name = document.getElementById("nameInput").value.trim();
+  const fp = document.getElementById("datePicker")._flatpickr;
+  const dates = fp.selectedDates.map(d => d.toISOString().slice(0, 10)); 
 
-      if (!name || !date) return;
+  if (!name || dates.length === 0) return;
 
-      bookings.push({ name, date });
+  
+  dates.forEach(date => {
+    bookings.push({ name, date });
+  });
 
-      
-      document.getElementById("datePicker").value = "";
+  
+  fp.clear();
 
-      save();
-    });
+  save();
+});
+
 
     render();
   </script>
